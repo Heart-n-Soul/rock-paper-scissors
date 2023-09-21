@@ -1,135 +1,91 @@
-// function that generates computer's selection and returns it.
+"use strict";
 
-function getComputerChoice() {
+// select relevant elements
+const myScore = document.querySelector(".score.my-score");
+
+const message = document.querySelector(".message");
+
+const computerScore = document.querySelector(".score.computer-score");
+
+const buttons = document.querySelectorAll(".btn");
+
+const reset = document.querySelector(".btn-reset");
+
+// let isGameReset = true;
+
+// function that generates computer's selection.
+const getComputerSelection = function () {
   const gameItems = ["Rock", "Paper", "Scissors"];
   const randomNum = Math.floor(Math.random() * gameItems.length);
   return gameItems[randomNum];
-}
+};
 
-// storing computer's choice function value in a variable
-const computerSelection = getComputerChoice();
+// function that resets game
+const initialSetup = () => {
+  myScore.textContent = 0;
+  computerScore.textContent = 0;
+  message.textContent = "Start Playing...";
+  document.body.style.cssText = "background-color: #333";
+  document.body.style.cssText = "color: #ccc";
+  // isGameReset = true;
+};
 
-// function that returns true when player wins and false when otherwise
-function playerWins(playerSelection, computerSelection) {
-  if (
-    (playerSelection === "Rock" && computerSelection === "Scissors") ||
-    (playerSelection === "Scissors" && computerSelection === "Paper") ||
-    (playerSelection === "Paper" && computerSelection === "Rock")
-  ) {
-    return true;
-  } else {
-    return false;
+// function to check for a winner
+const checkForWinner = () => {
+  if (myScore.textContent === "5" || computerScore.textContent === "5") {
+    const playerWins = myScore.textContent === "5";
+    message.textContent = playerWins
+      ? "🎉 Hurray! You win."
+      : "👎🏼 You Lost the game!";
+    document.body.style.backgroundColor = playerWins ? "#60b347" : "#af3311";
+    document.body.style.color = "hsla(0, 0%, 100%, 0.815)";
+
+    // setTimeout(initialSetup, 1000); // Add a delay before resetting the game
   }
-}
+};
 
-// function that returns true when computer wins and false when otherwise
-function computerWins(playerSelection, computerSelection) {
-  if (
-    (playerSelection === "Rock" && computerSelection === "Paper") ||
-    (playerSelection === "Scissors" && computerSelection === "Rock") ||
-    (playerSelection === "Paper" && computerSelection === "Scissors")
+// function that plays the game; it's called when game play buttons are clicked
+const playRound = (name) => {
+  // if (isGameReset) {
+  //   isGameReset = false;
+  //   return;
+  // }
+  const computerSelection = getComputerSelection();
+  if (name === computerSelection) {
+    message.textContent = `🤝 Tie! both chose ${name} `;
+    // console.log(computerSelection);
+  } else if (
+    (name === "Rock" && computerSelection === "Scissors") ||
+    (name === "Scissors" && computerSelection === "Paper") ||
+    (name === "Paper" && computerSelection === "Rock")
   ) {
-    return true;
+    myScore.textContent++;
+    message.textContent = `🎉Yay! ${name} beats ${computerSelection}`;
+    // console.log(computerSelection);
   } else {
-    return false;
+    computerScore.textContent++;
+    message.textContent = `👎🏼Lost! ${computerSelection} beats ${name}`;
+    // console.log(computerSelection);
   }
-}
 
-// function that returns true when there's a tie and false when otherwise
-function isTie(playerSelection, computerSelection) {
-  return playerSelection === computerSelection ? true : false;
-}
+  checkForWinner();
+};
 
-//function that invokes game play
-function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-  // This function checks the values of the three functions and prints the appropriate output
-  console.log("ROCK! PAPER! SCISSORS! VS COMPUTER \n");
-  console.log("FIVE ROUND GAME \n");
+// event listener for game play buttons
+buttons.forEach((button) =>
+  button.addEventListener("click", (e) => {
+    // console.log(e.target.textContent);
 
-  for (let i = 1; i <= 5; i++) {
-    // This takes user's input and stores it
-
-    switch (i) {
-      case 1:
-        console.log("FIRST GAME!");
-        break;
-      case 2:
-        console.log("SECOND GAME!");
-        break;
-      case 3:
-        console.log("THIRD GAME!");
-        break;
-      case 4:
-        console.log("FOURTH GAME!");
-        break;
-      case 5:
-        console.log("FIFTH GAME!");
-        break;
-    }
-    const playerInput = prompt(
-      "Please enter an option (rock, paper, or scissors): "
-    );
-
-    const playerSelection = () =>
-      playerInput.charAt(0).toUpperCase() + playerInput.slice(1).toLowerCase();
-
-    let playerPoint = playerWins(playerSelection(), computerSelection);
-    let computerPoint = computerWins(playerSelection(), computerSelection);
-    let draw = isTie(playerSelection(), computerSelection);
-
-    function playSingleGame(playerSelection, computerSelection) {
-      if (playerPoint) {
-        console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
-      } else if (computerPoint) {
-        console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
-      } else if (draw) {
-        console.log(
-          `It's a tie! ${playerSelection} is equal to ${computerSelection}.`
-        );
-      } else {
-        console.warn(
-          "Wrong Choice! Make sure you have entered the right option!"
-        );
-      }
-    }
-
-    if (playerPoint) {
-      // game();
-      playSingleGame(playerSelection(), computerSelection);
-
-      playerScore++;
-      console.log(`Your new score is ${playerScore} : ${computerScore} .`);
-    } else if (computerPoint) {
-      // game();
-      playSingleGame(playerSelection(), computerSelection);
-
-      computerScore++;
-      console.log(`Your new score is ${playerScore} : ${computerScore} .`);
-    } else if (draw) {
-      // game();
-      playSingleGame(playerSelection(), computerSelection);
-
-      playerScore += 0;
-      computerScore += 0;
-      console.log(`Draw! ${playerScore} : ${computerScore} .`);
+    if (myScore.textContent === "5" || computerScore.textContent === "5") {
+      initialSetup();
+      // setTimeout(() => initialSetup(), 1000); // Add a delay before resetting and continuing
     } else {
-      playSingleGame(playerSelection(), computerSelection);
+      playRound(e.target.textContent);
     }
-  }
-  if (playerScore > computerScore) {
-    console.log(
-      `You win! Your  total score is ${playerScore} : ${computerScore} .`
-    );
-  } else if (computerScore > playerScore) {
-    console.log(
-      `You Lose! Your total score is ${playerScore} : ${computerScore} .`
-    );
-  } else if (playerScore === computerScore) {
-    console.log(
-      `You have equal points ${playerScore} : ${computerScore}. \n\ WE GO ANOTHER FIVE ROUNDS!`
-    );
-    game();
-  }
-}
+  })
+);
+
+// event listener for reset button
+reset.addEventListener("click", initialSetup);
+
+initialSetup();
