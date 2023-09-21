@@ -4,33 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rock-paper-scissors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </head>
   <body>
     <header>
       <h1>rock! paper! scissors!</h1>
+      <div class="instruction-container">
+        <p class="instruction">First to get a score of 5 wins!</p>
+      </div>
     </header>
     <main class="main">
       <section class="section-1">
-        <div>
-          <p>My Score</p>
+        <div class="score-container">
+          <p class="score-title">My Score</p>
           <p class="score my-score"></p>
         </div>
-        <div>
-          <p>Computer Score</p>
+        <div class="score-container">
+          <p class="score-title">Computer Score</p>
           <p class="score computer-score"></p>
         </div>
       </section>
       <section class="section-2">
-        <div class="message">Start Playing...</div>
+        <div class="message-container">
+          <p class="message">Start Playing...</p>
+        </div>
         <div class="btn-container">
-          <button class="btn rock">Rock</button>
-          <button class="btn paper">Paper</button>
-          <button class="btn scissors">Scissors</button>
+          <button class="btn">Rock</button>
+          <button class="btn">Paper</button>
+          <button class="btn">Scissors</button>
         </div>
         <div class="reset-container">
-          <button class="btn reset">Reset</button>
+          <button class="btn-reset">Reset</button>
         </div>
       </section>
     </main>
